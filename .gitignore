@@ -8,6 +8,7 @@ testresults**
 tests/core/persistence/test_cache/*.json
 data/*.json
 data/parlant.log
+data
 
 cache/
 .coverage
