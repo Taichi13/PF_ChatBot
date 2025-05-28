@@ -2,7 +2,7 @@
 Parlantを使用したチャットボット
 
 ## 使用技術
-- Python 3.10
+- Python 3.10.17
 - Parlant
 - Docker / Docker Compose
 - Azure OpenAI API
@@ -24,12 +24,19 @@ ParlantをベースにしたカスタムAIチャットシステムの研究開�
 
 1. **リポジトリのクローン**
     ```bash
-    git clone https://github.com/xxxxxx/nflabs-parlant.git
-    cd nflabs-parlant
+    git clone https://github.com/Taichi13/PF_ChatBot.git
+    cd PF_ChatBot
     ```
 
 2. **環境変数の設定**
     - `.env_template`をコピーして`.env`を作成し、APIキーなど必要な値を設定
+        - AZURE_API_KEY: APIキー指定する
+        - AZURE_ENDPOINT: エンドポイント指定する
+        - AZURE_CHAT_API_VERSION: dev環境のAPIバージョン指定する
+        - AZURE_CHAT_DEPLOYMENT_NAME: dev環境のmodelを指定する
+        - AZURE_EMBEDDING_API_VERSION: embedding環境のAPIバージョンを指定する
+        - AZURE_EMBEDDING_DEPLOYMENT_NAME: embedding環境のmodelを指定する
+
 
 3. **Docker環境の起動**
     ```bash
@@ -37,7 +44,7 @@ ParlantをベースにしたカスタムAIチャットシステムの研究開�
     ```
 
 4. **サービスアクセス**
-    - `http://localhost:8000` など（実際のポートはdocker-compose.ymlで確認）
+    - `http://localhost:8800`
 
 ## 使い方 (Usage)
 
@@ -66,4 +73,3 @@ ParlantをベースにしたカスタムAIチャットシステムの研究開�
 
 - 商標利用は含まれません
 - 個人利用/教育利用/商用利用いずれも可能（ただし自己責任で運用してください）
-- データディレクトリ`data/`は.gitignore推奨です
