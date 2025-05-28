@@ -1,0 +1,12 @@
+[tool.poetry]
+name = "pf-chatbot"  
+version = "0.1.0"
+description = "Security education chatbot using Parlant"
+authors = ["Taichi Akamaru <taichi.akamaru@nflabs.jp>"]
+packages = []
+
+[tool.poetry.dependencies]
+python = "^3.10"
+parlant = { git = "https://${GITHUB_TOKEN}@github.com/Taichi13/parlant-private.git" }
+
+httpx = "^0.27.0"

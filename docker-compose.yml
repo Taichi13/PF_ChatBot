@@ -1,0 +1,12 @@
+services:
+  pf_chatbot:
+    build: .
+    container_name: pf_chatbot_container
+    ports:
+      - "8800:8800"
+    env_file:
+      - .env
+    environment:
+      - CONFIG=config/config.yaml
+    volumes:
+      - .:/app
