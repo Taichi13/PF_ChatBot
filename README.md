@@ -3,7 +3,7 @@ Parlantを使用したチャットボット
 
 ## 使用技術
 - Python 3.10.17
-- Parlant
+- Parlant 2.1.0
 - Docker / Docker Compose
 - Azure OpenAI API
 - poetry
@@ -33,14 +33,17 @@ ParlantをベースにしたカスタムAIチャットシステムの研究開�
         - AZURE_API_KEY: APIキー指定する
         - AZURE_ENDPOINT: エンドポイント指定する
         - AZURE_CHAT_API_VERSION: dev環境のAPIバージョン指定する
-        - AZURE_CHAT_DEPLOYMENT_NAME: dev環境のmodelを指定する
+        - AZURE_CHAT_DEPLOYMENT_NAME: dev環境のmodel名を指定する
         - AZURE_EMBEDDING_API_VERSION: embedding環境のAPIバージョンを指定する
         - AZURE_EMBEDDING_DEPLOYMENT_NAME: embedding環境のmodelを指定する
 
 
 3. **Docker環境の起動**
+- ghp_xxxxxxxxxxxxxxxxxに各自のPAT（Personal Access Token）を入れる（Token発行ページ https://github.com/settings/tokens）
+    - 「repo」スコープ（権限）があればOK（最低でも「repo:read」
+    - PATは絶対に漏らさないように
     ```bash
-    docker compose up --build
+    docker compose build --build-arg GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxx
     ```
 
 4. **サービスアクセス**
