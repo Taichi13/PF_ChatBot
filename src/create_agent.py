@@ -3,7 +3,7 @@ import requests
 import json
 import subprocess
 
-YAML_PATH = "InitialAccessSpecialist-20250509-1535.yaml"  # ← ファイル名を適宜指定
+YAML_PATH = "test_0.yaml"  # ← ファイル名を適宜指定
 FILE_PATH = "./yaml_file/" + YAML_PATH
 API_BASE = "http://localhost:8800"  # ParlantサーバーURL
 
@@ -42,7 +42,7 @@ for g in agent_data.get("glossary", []):
     g_payload = {
         "name": g["term"],
         "description": g["definition"],
-        "tags": [f"agent:{agent_id}"]
+        #tags": [f"agent:{agent_id}"]
     }
     res = requests.post(f"{API_BASE}/agents/{agent_id}/terms", json=g_payload)
     print(f"📙 Glossary 登録 ({g['term']}): {res.status_code}")
@@ -71,4 +71,4 @@ terms = res.json()
 print(f"\n📙 Glossary（Terms）:")
 for term in terms:
     print(f"- {term['name']}: {term['description']}")
-    print(f"- {term['tags']}: {term['tags']}")
+    #print(f"- {term['tags']}: {term['tags']}")
