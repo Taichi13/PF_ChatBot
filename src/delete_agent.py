@@ -6,7 +6,7 @@ headers = {"Content-Type": "application/json"}
 # 削除したいエージェントIDのリスト
 agent_ids = input('agent_idを指定してください：').split() # 必要に応じて追加
 
-# 各リソースの削除用関数
+# 各リソースの削除用関数Gp9KpN2oGL
 def delete_resources(endpoint, tag):
     res = requests.get(f"{API_BASE}/{endpoint}/", headers=headers)
     items = res.json()

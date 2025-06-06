@@ -70,4 +70,3 @@ terms = res.json()
 print(f"\n📙 Glossary（Terms）:")
 for term in terms:
     print(f"- {term['name']}: {term['description']}")
-    #print(f"- {term['tags']}: {term['tags']}")
