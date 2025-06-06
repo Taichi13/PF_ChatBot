@@ -41,4 +41,3 @@ with open(file_path, "w", encoding="utf-8") as f:
     f.write(yaml_str)
 
 print(f"✅ YAMLファイル生成完了: {file_path}")
-
