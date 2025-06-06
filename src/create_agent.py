@@ -42,7 +42,6 @@ for g in agent_data.get("glossary", []):
     g_payload = {
         "name": g["term"],
         "description": g["definition"],
-        #tags": [f"agent:{agent_id}"]
     }
     res = requests.post(f"{API_BASE}/agents/{agent_id}/terms", json=g_payload)
     print(f"📙 Glossary 登録 ({g['term']}): {res.status_code}")
@@ -71,4 +70,3 @@ terms = res.json()
 print(f"\n📙 Glossary（Terms）:")
 for term in terms:
     print(f"- {term['name']}: {term['description']}")
-    #print(f"- {term['tags']}: {term['tags']}")
