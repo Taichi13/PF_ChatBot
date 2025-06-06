@@ -34,11 +34,9 @@ for key in ["guidelines:", "glossary:"]:
     yaml_str = yaml_str.replace(f"\n{key}", f"\n\n{key}")
 
 # 保存
-JST = timezone(timedelta(hours=9))
-now_jst = datetime.now(JST)
 save_dir = "./yaml_file"
 os.makedirs(save_dir, exist_ok=True)  # ← ここでディレクトリ作成（既にあれば無視）
-file_path = f"{save_dir}/{agent_data['name']}-{now_jst.strftime('%Y%m%d-%H%M')}.yaml" # ファイルパス作成
+file_path = f"{save_dir}/{agent_data['name']}}.yaml" # ファイルパス作成
 with open(file_path, "w", encoding="utf-8") as f:
     f.write(yaml_str)
 
