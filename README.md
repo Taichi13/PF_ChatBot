@@ -56,7 +56,7 @@ ParlantをベースにしたカスタムAIチャットシステムの研究開�
     parlant agent list
     parlant session create --agent <AGENT_ID>
     ```
-- エージェント定義やチャット履歴など、詳細な操作方法は[Wiki](./docs/)または公式ドキュメント参照
+- エージェント定義やチャット履歴など、詳細な操作方法は公式ドキュメント参照
 
 ## 開発・カスタマイズ (Development & Customization)
 
