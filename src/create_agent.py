@@ -3,7 +3,7 @@ import requests
 import json
 import subprocess
 
-YAML_PATH = "test_0.yaml"  # ← ファイル名を適宜指定
+YAML_PATH = "nmapSpecialist.yaml"  # ← ファイル名を適宜指定
 FILE_PATH = "./yaml_file/" + YAML_PATH
 API_BASE = "http://localhost:8800"  # ParlantサーバーURL
 
