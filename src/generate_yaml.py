@@ -36,9 +36,8 @@ for key in ["guidelines:", "glossary:"]:
 # 保存
 save_dir = "./yaml_file"
 os.makedirs(save_dir, exist_ok=True)  # ← ここでディレクトリ作成（既にあれば無視）
-file_path = f"{save_dir}/{agent_data['name']}}.yaml" # ファイルパス作成
+file_path = f"{save_dir}/{agent_data['name']}.yaml" # ファイルパス作成
 with open(file_path, "w", encoding="utf-8") as f:
     f.write(yaml_str)
 
 print(f"✅ YAMLファイル生成完了: {file_path}")
-
