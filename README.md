@@ -52,21 +52,23 @@ ParlantをベースにしたカスタムAIチャットシステムの研究開�
     - `http://localhost:8800`
 
 ## 使い方 (Usage)
+1. generate_yaml.pyでベースのyamlファイルを作成
+2. yamlファイルを書き換える
+3. create_agent.pyでAgent・Guideline・Glossaryを作成
 
-- Parlant CLI例:
+- Agent定義やチャット履歴など、詳細な操作方法は公式ドキュメント参照（https://www.parlant.io/docs/quickstart/introduction/）
+- Parlant yamlでAgentを管理する例:
+    - descriptionについて、「'」と「'''」どちらで囲んでも反映されます。     
+  <img width="872" alt="image" src="https://github.com/user-attachments/assets/a5fd8c19-7a9f-4ec7-bcb4-7f581f7243eb" />
+- Parlant CLI例:（CLIで反映した変更をyamlファイルに適用する際に、export_yaml.pyを使って反映できるが、手動で変更するため、使用しない方が良い。）
     ```bash
     parlant agent list
     parlant session create --agent <AGENT_ID>
     ```
-- エージェント定義やチャット履歴など、詳細な操作方法は公式ドキュメント参照
-- Parlant yamlでエージェントを管理する例:
-    - descriptionについて、「'」と「'''」どちらで囲んでも反映されます。     
-  <img width="872" alt="image" src="https://github.com/user-attachments/assets/a5fd8c19-7a9f-4ec7-bcb4-7f581f7243eb" />
-
 
 ## 開発・カスタマイズ (Development & Customization)
 
-- Parlant/本プロジェクトのコードやエージェントのカスタマイズは`src/`ディレクトリ配下で行ってください
+- Parlant/本プロジェクトのコードやAgentのカスタマイズは`src/`ディレクトリ配下で行ってください
 - Poetryでパッケージ管理
     ```bash
     poetry install
