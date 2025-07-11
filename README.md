@@ -73,8 +73,13 @@ ParlantをベースにしたカスタムAIチャットシステムの研究開�
     ```bash
     poetry install
     ```
+    
 ## ファイルについて
-- create_agent.py:
+- change_yaml.py:yamlを書き換えた後にagent_idを変更せずにagentの中身(guideline, glossaryなど)を変えることができるファイル。
+- create_agent.py:yamlファイルをもとにagentを作成するファイル。（ファイル内でyamlを指定する必要がある）
+- delete_agent.py:作成したエージェントの削除。guidelineやglossaryも削除される。
+- generate_yaml.py:ベースとなるyamlを作成する。ここで作成したyamlファイルを書き換えてエージェントのベースを作成する。
+
 
 ## ライセンス (License)
 
