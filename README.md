@@ -8,7 +8,7 @@ Parlantを使用したチャットボット
 - Parlant 2.1.0
 - Docker / Docker Compose
 - Azure OpenAI API(gpt-4o-mini, text-embedding-3-small)
-- poetry
+- poetry 1.8.3
 
 ## プロジェクトの概要
 ParlantをベースにしたカスタムAIチャットシステムの研究開発プロジェクトです。
