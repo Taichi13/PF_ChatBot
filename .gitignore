@@ -4,15 +4,13 @@
 .ruff_cache
 __pycache__
 .justfile
-testresults**
+testresults/**
 tests/core/persistence/test_cache/*.json
-data/*.json
-data/parlant.log
-data
+data/
 
 cache/
 .coverage
-.DS_STORE
+.DS_Store
 .vscode
 .venv
 .cursor
@@ -26,4 +24,6 @@ fern.generate.log
 schematic_generation_test_cache.json
 test_timing.csv
 
-src/yaml_file
+src/yaml_file/*
+!src/yaml_file/InitialAccessSpecialist.yaml
+!src/yaml_file/ReconSpecialist.yaml
