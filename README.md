@@ -7,20 +7,13 @@ Parlantを使用したチャットボット
 - Python 3.10.17
 - Parlant 2.1.0
 - Docker / Docker Compose
-- Azure OpenAI API
+- Azure OpenAI API(gpt-4o-mini, text-embedding-3-small)
 - poetry
 
 ## プロジェクトの概要
 ParlantをベースにしたカスタムAIチャットシステムの研究開発プロジェクトです。
 - Parlant公式サイト: https://www.parlant.io/
 - Parlant GitHub: https://github.com/emcie-co/parlant
-
-
-## 必要要件 (Requirements)
-
-- Python 3.10+
-- Docker / Docker Compose
-- Poetry
 
 ## セットアップ (Setup)
 
@@ -79,15 +72,3 @@ ParlantをベースにしたカスタムAIチャットシステムの研究開�
 - `create_agent.py`：yamlファイルをもとにagentを作成するファイル。（ファイル内でyamlを指定する必要がある）
 - `delete_agent.py`：作成したエージェントの削除。guidelineやglossaryも削除される。
 - `generate_yaml.py`：ベースとなるyamlを作成する。ここで作成したyamlファイルを書き換えてエージェントのベースを作成する。
-
-
-## ライセンス (License)
-
-このプロジェクトは[Apache License 2.0]のもと公開しています。
-
-> ※保証や責任は一切負いません。詳細はライセンスファイル参照。
-
-## その他・注意点 (Notes)
-
-- 商標利用は含まれません
-- 個人利用/教育利用/商用利用いずれも可能（ただし自己責任で運用してください）
