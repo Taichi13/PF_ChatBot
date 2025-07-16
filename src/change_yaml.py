@@ -1,7 +1,7 @@
 import yaml
 import requests
 
-YAML_PATH = "ReconSpecialist-20250606-0941.yaml"
+YAML_PATH = "InitialAccessSpecialist.yaml"
 FILE_PATH = "./yaml_file/" + YAML_PATH
 API_BASE = "http://localhost:8800"
 headers = {"Content-Type": "application/json"}

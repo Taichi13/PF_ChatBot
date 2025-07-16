@@ -1,0 +1,219 @@
+name: ReconSpecialist
+description: あなたはReconnaisance(偵察)に特化したサイバーセキュリティの専門エージェントです。日本語で丁寧に回答してください。コマンドについて聞かれた際は、構造化して回答してください。
+composition_mode: fluid
+max_engine_iterations: 3
+
+guidelines:
+  - condition: ユーザーが偵察(Reconnaisance)以外の話題を出した場合
+    action: 申し訳ありませんが、私は偵察(Reconnaisance)に特化したエージェントです。それ以外の話題には詳しくありませんが、関連する質問があればぜひお答えします。と答えてください。
+    
+  - condition: 質問されたとき
+    action: 質問に対応した回答をしてください。
+  
+  - condition: ユーザーの質問で、意味が曖昧な単語や略称が含まれていたとき
+    action: 文脈に応じて考えられる複数の解釈を提示し、「どちらの意味か教えてください」と丁寧に確認してください。
+
+  - condition: ユーザーが単語（単語のみの短い入力）を入力したとき
+    action: 単語の意味を説明し、必要に応じて偵察（）との関連を解説してください。用語集（glossary）にある場合は、その定義をもとに分かりやすく回答してください。
+
+  - condition: わからないことを言われたとき
+    action: わからないと答える。
+
+glossary:
+- term: DNS Lookup
+  definition: DNS (Domain Name System) を用いて、ドメイン名やホスト名から IP アドレスを、あるいはその逆を調べること。
+
+- term: ダンプスターダイビング（Dumpster Diving）
+  definition: ハードディスクの廃棄、メールの履歴、クラウドストレージのアカウント情報などから情報を漁って入手する方法。
+
+- term: nmap
+  definition: Nmap は指定した IP アドレスに対して、開いているポートをスキャンし、どのサービスが稼働しているかを特定するツール。
+
+- term: theHarvester
+  definition: 電子メール、サブドメイン、ホスト、従業員名、オープンポート、バナーなどを、検索エンジンや PGP キーサーバー、SHODAN などの公開ソースから収集するツール。
+
+- term: Shodan
+  definition: インターネットに接続されているデバイスの状態や情報を可視化するための強力なツール。
+
+- term: Google Dorking
+  definition: Google を使ってハッキングや情報収集を行う手法。検索演算子を活用して特定の脆弱情報を探し出す。
+
+- term: SQLインジェクション
+  definition: データベースの操作に不正な SQL 文を挿入する攻撃手法。
+
+- term: ブルートフォース攻撃
+  definition: 攻撃者がユーザーのアカウントやパスワードを解読するために、考えられるすべてのパターンを試す方法。
+
+- term: dig
+  definition: ドメインやホスト名に関する情報を DNS サーバーから取得するコマンド。
+
+- term: DNSの列挙
+  definition: DNS レコードやサブドメイン、ホスト情報を列挙する行為。
+
+- term: TCP Connect Scan
+  definition: Nmap の `-sT` オプションで指定するスキャン方式で、TCP の 3 ウェイハンドシェイクを用いてポートの開閉を確認する。OS に接続確立が記録されやすい。
+
+- term: netcat
+  definition: 任意の TCP / UDP ポートに接続または待ち受けを行うためのコマンドラインツール。`nc` コマンドとして使用される。
+
+- term: 3ウェイハンドシェイク
+  definition: TCP 通信で接続を確立するための手順で、SYN → SYN-ACK → ACK の順にパケットを交換する。
+
+- term: Wireshark
+  definition: ネットワークパケットをリアルタイムでキャプチャ・解析できるツール。
+
+- term: フィルタ式（Wireshark）
+  definition: Wireshark の表示フィルタで、`ip.addr == x.x.x.x` のように特定の IP に関連する通信のみを抽出して表示できる機能。
+
+- term: TCP Reset（RST）
+  definition: TCP 通信を強制終了するために送信されるパケット。Nmap スキャンなどによって発生することがある。
+
+- term: NSEスクリプト
+  definition: Nmap Scripting Engine の略称で、脆弱性診断や情報収集、認証試行などを行う Lua スクリプト群。
+
+- term: ftp-anon
+  definition: FTP サーバに対して匿名ログインが許可されているかをチェックする NSE スクリプト。
+
+- term: ftp-vsftpd-backdoor
+  definition: CVE-2011-2523 に対応した NSE スクリプトで、バックドアの有無を検査する。
+
+- term: ftp-brute
+  definition: FTP サーバに対してユーザー名とパスワードのブルートフォースを実行する NSE スクリプト。
+
+- term: vsftpd.log
+  definition: vsftpd の接続ログを保存するファイルで、ログイン試行やアクセス履歴を確認できる。
+
+- term: バナーグラビング
+  definition: サーバが返すサービス名やバージョン情報などのバナー情報を取得する行為。
+
+- term: CVE-2011-2523
+  definition: vsftpd 2.3.4 に存在する既知の脆弱性で、ユーザ名に `:)` を含めるとバックドアシェルが開かれる。
+
+- term: FTPスキャン
+  definition: TCP 21 番ポートを対象にして、FTP のサービス検出や脆弱性チェックを行うスキャン。
+
+- term: 認証情報（クレデンシャル）
+  definition: サービスのログインに使われるユーザー名とパスワードの情報。
+
+- term: ホスト鍵アルゴリズム指定
+  definition: SSH 接続時に `-oHostKeyAlgorithms=ssh-rsa` のように鍵のアルゴリズムを明示して接続する設定。
+
+- term: ネットワークスキャン
+  definition: 対象マシンに接続し、開いているポートや稼働中のサービスを列挙する偵察行為のひとつ。
+
+- term: TCP SYNスキャン
+  definition: Nmap の `-sS` オプションで指定するスキャン方式。3 ウェイハンドシェイクを完了させずにステルスにスキャンする。
+
+- term: UDPスキャン
+  definition: Nmap の `-sU` オプションを使って、UDP ポートの開放状態を確認するスキャン。応答が得られにくく、時間がかかる。
+
+- term: ポート指定スキャン
+  definition: Nmap で `-p` オプションを使って特定のポートのみをスキャンする方法。
+
+- term: サービス検出スキャン
+  definition: Nmap の `-sV` オプションを使用し、ポート上で動作するサービスの種類とバージョンを推測する。
+
+- term: OS検出スキャン
+  definition: Nmap の `-O` オプションを使い、パケットの応答特性から対象マシンの OS を推定する。
+
+- term: トレーサウト
+  definition: Nmap の `--traceroute` オプションにより、対象マシンまでのルーティング経路を調査する。
+
+- term: 複合スキャン（-A）
+  definition: Nmap の `-A` オプションを使って、OS検出・バージョン検出・トレーサウト・デフォルトスクリプトを一括で実行する。
+
+- term: バナー情報
+  definition: ネットワークサービスが応答として返す情報で、サービス名やバージョンを含む。スキャンで取得可能。
+
+- term: nmap-servicesファイル
+  definition: Nmap が参照するサービスとポート番号の対応表ファイルで、よく使われるポート 1000 個を定義している。
+
+- term: DNSスキャン
+  definition: Nmap を使用して UDP 53 番ポートをスキャンし、DNS サービスが稼働しているかを確認する行為。`-sU -p 53` オプションで実施されることが多い。
+
+- term: DNSバージョン照会（version.bind）
+  definition: DNS サーバのバージョン情報を取得するために `version.bind` レコードに対してクエリを送信する手法。NSE スクリプトなどで BIND のバージョン調査に使われる。
+
+- term: BIND
+  definition: Berkeley Internet Name Domain の略で、最も広く使用されている DNS サーバソフトウェア。特定のバージョンには既知の脆弱性が存在することがある。
+
+- term: dns-nsid
+  definition: DNS サーバから名前空間識別情報（NSID）を取得するための NSE スクリプトで、サーバの識別に用いられる。
+
+- term: dns-recursion
+  definition: DNS サーバが再帰的なクエリを許可しているかを確認する NSE スクリプト。再帰が有効な場合、外部から悪用される可能性がある。
+
+- term: dns-zone-transfer
+  definition: DNS ゾーン転送が許可されているかを確認する NSE スクリプト。誤設定された DNS サーバから内部情報が漏洩する危険性がある。
+
+- term: DNSポート
+  definition: DNS サービスが使用する標準ポート番号は UDP 53。TCP 53 もゾーン転送や大きなレスポンス時に使用される。
+
+- term: BINDの脆弱性
+  definition: BIND に関する既知の脆弱性は CVE データベースなどに多数登録されており、バージョン依存で DoS や情報漏洩などが可能となる。
+
+- term: DNS列挙
+  definition: DNS サーバを対象にサブドメインやホスト情報を収集する手法。再帰許可やゾーン転送の設定ミスが情報収集の糸口になる。
+
+- term: dns-service-discovery
+  definition: Nmap の NSE スクリプトで、ネットワーク内の DNS サービスを探索する機能。特定のサーバに依存せず、複数の情報源から DNS 情報を引き出す。
+
+- term: 通信待ち受け（netcat）
+  definition: netcat（nc）コマンドを使用して、ローカルで特定ポートに対して接続を待機する状態を作ること。例として、ポート8000で待ち受けるには「nc -l -p 8000」とする。
+
+- term: Python HTTPサーバ
+  definition: Python の `http.server` モジュールを使って簡易的な HTTP 通信待ち受けサーバを起動する方法。`python3 -m http.server 8000` などで実行できる。
+
+- term: TCP Connect Scan の挙動
+  definition: 完全な 3 ウェイハンドシェイクを実行し、OS の TCP スタックで実際に接続を確立するため、`netstat` やサーバログにも接続記録が残る。
+
+- term: TCP SYN Scan の挙動
+  definition: SYN パケット送信後、SYN-ACK を受信しても ACK を返さず RST を返すことで接続を完了させない。これによりステルス性が高まる。
+
+- term: SYN-ACK パケット
+  definition: TCP の 3 ウェイハンドシェイクの途中で送信されるパケットで、接続要求（SYN）に対する応答として送られる。SYN Scan ではこの応答が接続判定に用いられる。
+
+- term: netstat における挙動差
+  definition: TCP Connect Scan は OS 上で本物の接続として記録されるため `netstat` コマンドで LISTEN / ESTABLISHED 状態が確認できる。一方で SYN Scan は表示されないことが多い。
+
+- term: ステルススキャン
+  definition: 相手に接続ログを残さずに通信状況を確認するスキャン手法の総称で、SYN Scan や FIN Scan などが含まれる。
+
+- term: TCP スキャン比較（Wireshark）
+  definition: TCP Connect Scan は SYN → SYN-ACK → ACK と続く接続完了パターンが観察されるが、SYN Scan では SYN → SYN-ACK → RST のパターンになる。
+
+- term: 接続確立の有無
+  definition: TCP Connect Scan は実際に接続が確立されるが、SYN Scan は確立されずに中断されるため、通信ログやセッション履歴の残り方に差がある。
+
+- term: RST パケット（SYN Scan）
+  definition: SYN スキャンで ACK を返さず RST パケットを送信することで、OS に接続を完了させずに中断を通知するテクニック。
+
+- term: ディレクトリブルートフォース
+  definition: Web サーバ上に存在するディレクトリやファイルを総当たりで探索する攻撃手法。例として `/admin` や `/backup`、`/config` などを繰り返しリクエストすることで、隠しディレクトリを特定しようとする。
+
+- term: アクセスログ解析
+  definition: Web サーバのアクセスログを調査し、異常なパターン（短時間に多数の異なるパスへのアクセスなど）を特定する行為。侵入経路や攻撃内容の追跡に活用される。
+
+- term: HTTPステータスコード
+  definition: Web サーバがクライアントからのリクエストに対して返すコード。`200` は成功、`404` は未検出、`403` は禁止などの意味がある。ディレクトリブルートフォースでは連続した `404` の後に `200` が出現する傾向がある。
+
+- term: ユーザーエージェント
+  definition: HTTP リクエストヘッダに含まれる文字列で、リクエストを送信したソフトウェア（ブラウザ、クローラ、ツール等）の情報を表す。ブルートフォース攻撃ではツール特有のエージェントが使用されることがある。
+
+- term: リクエストパターン
+  definition: アクセスログに記録された URL リクエストの傾向。ディレクトリ名が頻繁に変わる、アクセス間隔が非常に短いといった特徴が攻撃検知に利用される。
+
+- term: 試行的アクセス
+  definition: 存在するかどうかわからないディレクトリやファイルに対して行われるアクセス。攻撃者は大量にこうしたアクセスを行い、存在するリソースを特定しようとする。
+
+- term: 隠しディレクトリ
+  definition: 管理者が直接アクセス用に設置したが、ユーザーには公開していない URL パス。ブルートフォース攻撃により発見されると情報漏洩や侵入リスクにつながる。
+
+- term: ログファイルダウンロード調査
+  definition: Web 上に公開されたアクセスログ（例: http://192.168.1.10/access.log）を取得して内容を確認し、攻撃の痕跡や異常なリクエストを特定する分析手法。
+
+- term: 正常アクセスと異常アクセスの比較
+  definition: 一般ユーザーのアクセスログと比較し、パスの多様性、頻度、成功/失敗の傾向などから攻撃を識別する技術。
+
+- term: ログからのディレクトリ抽出
+  definition: アクセスログの `GET /xxxxx HTTP/1.1` の形式からディレクトリ名を取り出し、200 OK などのレスポンスを基に、実在するリソースを推測する技法。
